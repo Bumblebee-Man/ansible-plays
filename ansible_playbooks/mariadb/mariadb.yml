@@ -1,0 +1,40 @@
+---
+- hosts: webdev  
+  remote_user: root
+  tasks:
+
+#  - name: Add APT GPG signing key
+#    apt_key: keyserver=keyserver.ubuntu.com id=0xcbcb082a1bb943db
+
+  - name: Add Software Properties Common
+    apt: name=software-properties-common state=present
+
+  - name: Add APT repository
+    apt_repository: repo='deb http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.0/ubuntu trusty main' state=present
+
+  - name: Add SRC APT repository
+    apt_repository: repo='deb-src http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.0/ubuntu trusty main' state=present
+
+  - name: update cache
+    apt: update_cache=yes
+
+  - name: Install MariaDB client package
+    apt: name=mariadb-client-10.0 state=present
+
+  - name: Install MariaDB server package
+    apt: name=mariadb-server-10.0 state=present
+
+  - name: Start Mysql Service
+    service: name=mysql state=started enabled=true
+
+  - name: Install python Mysql package #required for mysql_db tasks
+    apt: name=python-mysqldb state=present
+
+  - name: Create a new database
+    mysql_db: name=demo state=present collation=utf8_general_ci
+
+  - name: Create a database user
+    mysql_user: name=dev_user password=rino7531 priv=*.*:ALL host=localhost state=present
+
+  - name: Install MySQL extension for PHP
+    apt: name=php5-mysql state=present

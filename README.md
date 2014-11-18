@@ -1,1 +1,1 @@
-Contents are scripts and plays used to manage and work on servers
+Ansible plays to quickly spin up servers. Very simple plays.

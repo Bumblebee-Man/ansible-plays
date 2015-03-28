@@ -1,0 +1,19 @@
+---
+- hosts: all
+  remote_user: root
+  tasks:
+  - group: name=user1 state=present
+  - user: name=user1 shell=/bin/bash group=user1 groups=sudo password=< HASHED PASSWORD SHA-512 >
+
+  - group: name=user2 state=present
+  - user: name=user2 shell=/bin/bash group=user2 groups=sudo password=< HASHED PASSWORD SHA-512 >
+
+  - group: name=user3 state=present
+  - user: name=user3 shell=/bin/bash group=user3 groups=sudo password=< HASHED PASSWORD SHA-512 >
+
+
+## Hashed passwords
+## mkpasswd --method=SHA-512 (installed with 'apt-get install whois'
+## or 
+## python -c "from passlib.hash import sha512_crypt; import getpass; print sha512_crypt.encrypt(getpass.getpass())"
+## http://docs.ansible.com/user_module.html
